@@ -7,8 +7,8 @@ class PersonAccount {
     public decimal AmountDebit {get;set;}
     public decimal Balance{get;set;}
     public List<string> BalanceList = new List<string>();
-
     public List<string> TransactionList = new List<string>();
+    //List of Person's Name which is unique
     HashSet<string> PersonName = new HashSet<string>();
     List<Transaction> personTransaction;
 
@@ -28,7 +28,7 @@ class PersonAccount {
             foreach (Transaction transaction in personTransaction){
                 if (name == transaction.From){
                     
-                    AmountCredit =+ transaction.Amount;
+        AmountCredit =+ transaction.Amount;
                 }
                 if (name == transaction.To){
                     AmountDebit =+ transaction.Amount;

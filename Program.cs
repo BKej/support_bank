@@ -2,10 +2,10 @@
 using System.Data;
 
 CSVFileReader csv = new CSVFileReader();
+DataTable dataTable = csv.ReadFile("Transactions2014.csv");
+
 
 List<Transaction> myTransactions=new List<Transaction>();
-
-DataTable dataTable = csv.ReadFile();
 
 foreach (DataRow row in dataTable.Rows)
 {

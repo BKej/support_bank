@@ -8,13 +8,12 @@ class CSVFileReader{
 
     DataTable dataTable = new DataTable();
 
-    public DataTable ReadFile(){
+    public DataTable ReadFile(string FileName){
 
-         System.IO.StreamReader reader = new System.IO.StreamReader("Transactions2014.csv");
+         System.IO.StreamReader reader = new System.IO.StreamReader(FileName);
         
          // Read the first line to create columns in the DataTable
             string[] headers = reader.ReadLine().Split(',');
-
             foreach (string header in headers)
             {
                 dataTable.Columns.Add(header);
