@@ -3,14 +3,18 @@ using System.Collections.Generic;
 class PersonAccount {
 
     public string Name {get;set;}
+    public decimal Balance{get;set;}
+
+    // We don't need these properties, we could use those in method:
     public decimal AmountCredit {get;set;}
     public decimal AmountDebit {get;set;}
-    public decimal Balance{get;set;}
-    public List<string> BalanceList = new List<string>();
-    public List<string> TransactionList = new List<string>();
-    //List of Person's Name which is unique
+
+    //May put these in another class:
+    //List of Person's Name which is unique; 
     HashSet<string> PersonName = new HashSet<string>();
     List<Transaction> personTransaction;
+    public List<string> BalanceList = new List<string>();
+    public List<string> TransactionList = new List<string>();
 
     //Constructor
     public PersonAccount(List<Transaction> myTransactions){
