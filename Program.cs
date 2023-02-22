@@ -14,9 +14,10 @@ foreach (DataRow row in dataTable.Rows)
 
 PersonAccount personAcc = new PersonAccount(myTransactions);
 
-decimal BalanceAmount = personAcc.CalculateBalance("Jon A");
+List<string> BalanceList = personAcc.CalculateBalance();
 
+foreach(string info in BalanceList ){
+    Console.WriteLine(info.ToString());
+}
 
-//foreach (Transaction transaction in myTransactions){
-    Console.WriteLine(BalanceAmount);
 
