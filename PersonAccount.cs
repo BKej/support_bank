@@ -8,13 +8,14 @@ class PersonAccount {
     // We don't need these properties, we could use those in method:
     public decimal AmountCredit {get;set;}
     public decimal AmountDebit {get;set;}
-
-    //May put these in another class:
-    //List of Person's Name which is unique; 
-    HashSet<string> PersonName = new HashSet<string>();
     List<Transaction> personTransaction;
     public List<string> BalanceList = new List<string>();
     public List<string> TransactionList = new List<string>();
+
+    //May put this in another class:
+    //List of Person's Name which is unique; 
+    HashSet<string> PersonName = new HashSet<string>();
+   
 
     //Constructor
     public PersonAccount(List<Transaction> myTransactions){
