@@ -6,20 +6,23 @@ class PersonAccount {
     public decimal AmountDebit {get;set;}
     public decimal Balance{get;set;}
 
-    Transaction personTransaction;
-    public PersonAccount(Transaction myTransactions){
+    List<Transaction> personTransaction;
+    public PersonAccount(List<Transaction> myTransactions){
        personTransaction = myTransactions;
     }    
     public decimal CalculateBalance(string name){
         
-        if (name == personTransaction.From){
-            AmountCredit =+ personTransaction.Amount;
+        foreach (Transaction transaction in personTransaction){
+            if (name == transaction.From){
+                AmountCredit =+ transaction.Amount;
         }
 
-        if (name == personTransaction.To){
-            AmountDebit =+ personTransaction.Amount;
+            if (name == transaction.To){
+                AmountDebit =+ transaction.Amount;
         }
 
+        }
+       
         return (Balance = AmountCredit - AmountDebit);
     }
 
