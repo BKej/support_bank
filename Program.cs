@@ -13,11 +13,18 @@ foreach (DataRow row in dataTable.Rows)
 }
 
 PersonAccount personAcc = new PersonAccount(myTransactions);
-
 List<string> BalanceList = personAcc.CalculateBalance();
 
 foreach(string info in BalanceList ){
     Console.WriteLine(info.ToString());
 }
 
+Console.WriteLine("Enter the Person Name to see the transaction:");
+String PersonName = Console.ReadLine();
+
+List<string> personTransaction = personAcc.DisplayPersonTransaction(PersonName);
+
+foreach(string info in personTransaction){
+    Console.WriteLine(info.ToString());
+}
 
