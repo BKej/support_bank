@@ -1,6 +1,10 @@
 namespace SupportBank;
-class Transaction{
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 
+class Transaction{
+    private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
     public string Date {get;set;}
     public string From {get;set;}
     public string To {get;set;}

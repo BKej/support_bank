@@ -1,39 +1,37 @@
 namespace SupportBank;
 using System.Collections.Generic;
-class PersonAccount {
+using NLog;
+using NLog.Config;
+using NLog.Targets;
+
+class Accounts{
+private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
     public string Name {get;set;}
     public decimal Balance{get;set;}
-
-    // We don't need these properties, we could use those in method:
-    public decimal AmountCredit {get;set;}
-    public decimal AmountDebit {get;set;}
-    List<Transaction> personTransaction;
-    public List<string> BalanceList = new List<string>();
-    public List<string> TransactionList = new List<string>();
-
-    //May put this in another class:
-    //List of Person's Name which is unique; 
-    HashSet<string> PersonName = new HashSet<string>();
-   
+    public List<Transaction> personTransaction = new List<Transaction>();
+    public PersonList personList;
 
     //Constructor
-    public PersonAccount(List<Transaction> myTransactions){
+    public Accounts(List<Transaction> myTransactions){
        personTransaction = myTransactions;
+       //we need to initialise personList
+       personList = new PersonList(personTransaction);
     }  
     
     //Method to calculate Balance for each person
     public List<string> CalculateBalance(){
-        foreach(Transaction transaction in personTransaction){
-            PersonName.Add(transaction.From);
-        }
 
-        foreach(string name in PersonName){
+        decimal AmountCredit = 0;
+        decimal AmountDebit = 0;
+        
+        List<string> BalanceList = new List<string>();
+
+        foreach(string name in personList.GetPersonList()){
             Name = name;
             foreach (Transaction transaction in personTransaction){
                 if (name == transaction.From){
-                    
-        AmountCredit =+ transaction.Amount;
+                    AmountCredit =+ transaction.Amount;
                 }
                 if (name == transaction.To){
                     AmountDebit =+ transaction.Amount;
@@ -43,11 +41,13 @@ class PersonAccount {
             BalanceList.Add($"{Name}: {Balance}");
          }
          
-        return (BalanceList);
+        return BalanceList;
     } 
 
     public List<string> DisplayPersonTransaction(string name){
-        if (!PersonName.Contains(name)){
+        List<string> TransactionList = new List<string>();
+
+        if (!personList.GetPersonList().Contains(name)){
             throw new ArgumentOutOfRangeException($"Sorry, this name: {name} is invalid.");
         }
         
