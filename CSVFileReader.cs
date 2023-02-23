@@ -1,19 +1,25 @@
-using System;
-using System.IO;
+using SupportBank;
 using System.Data;
-using System.Linq;
-using static System.IO.StreamReader;
+using NLog;
+
 
 class CSVFileReader{
-
+    private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+   
     DataTable dataTable = new DataTable();
-
+        
     public DataTable ReadFile(string FileName){
+
+        Logger.Info("Inside ReadFile method:- FileName: "+ FileName);
+
         try{
          System.IO.StreamReader reader = new System.IO.StreamReader(FileName);
-        
+         
          // Read the first line to create columns in the DataTable
             string[] headers = reader.ReadLine().Split(',');
+            
+            Logger.Info("Reading File Header");
+               
             foreach (string header in headers)
             {
                 dataTable.Columns.Add(header);
@@ -31,12 +37,17 @@ class CSVFileReader{
                 dataTable.Rows.Add(dataRow);
             }
 
+            if(dataTable.Rows.Count == 0){
+                Logger.Debug("No Data Found...");
+            }
+
                     try{
                         foreach (DataRow row in dataTable.Rows)
                         {
                             DateTime.Parse(row["Date"].ToString()!);
                         }
                     }catch(System.FormatException e){
+                        Logger.Debug("Date is not valid");
                         Console.WriteLine("Date invalid, please update the date in proper format in the file!!");
                         throw e;
                     }
@@ -47,6 +58,7 @@ class CSVFileReader{
                             Decimal.Parse(row["Amount"].ToString()!);
                         }
                     }catch(System.FormatException e){
+                        Logger.Debug("Amount is not valid");
                         Console.WriteLine("Amount should be a number, please update the file with correct amount.");
                         throw e;
                     }
@@ -54,6 +66,7 @@ class CSVFileReader{
         catch (FileNotFoundException e){
             Console.WriteLine("File Not found, please give correct path");
             throw e;
+            // ask a user for another input;
         }
         
         return dataTable;

@@ -11,27 +11,28 @@ config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
 LogManager.Configuration = config;
 
 CSVFileReader csv = new CSVFileReader();
-DataTable dataTable = csv.ReadFile("Transactions2014.csv");
-
+DataTable dataTable = csv.ReadFile("Transactions2014New.csv");
 
 List<Transaction> myTransactions=new List<Transaction>();
 
-    foreach (DataRow row in dataTable.Rows)
-    {
-        myTransactions.Add(new Transaction(row["Date"].ToString()!,row["From"].ToString()!,row["To"].ToString()!,row["Narrative"].ToString()!,Convert.ToDecimal(row["Amount"])));
-    }
+foreach (DataRow row in dataTable.Rows)
+{
+    myTransactions.Add(new Transaction(row["Date"].ToString()!,row["From"].ToString()!,row["To"].ToString()!,row["Narrative"].ToString()!,Convert.ToDecimal(row["Amount"])));
+}
 
-Accounts personAcc = new Accounts(myTransactions);
-List<string> BalanceList = personAcc.CalculateBalance();
+Accounting accounts = new Accounting(myTransactions);
+List<string> BalanceList = accounts.CalculateBalance();
 
-foreach(string info in BalanceList ){
-    Console.WriteLine(info.ToString());
+foreach(string info in BalanceList )
+{
+    Console.WriteLine(info);
 }
 
 Console.WriteLine("Enter the Person Name to see the transaction:");
-String PersonName = Console.ReadLine();
 
-List<string> personTransaction = personAcc.DisplayPersonTransaction(PersonName);
+string personName = Console.ReadLine();
+
+List<string> personTransaction = accounts.DisplayPersonTransaction(personName);
 
 foreach(string info in personTransaction){
     Console.WriteLine(info.ToString());
