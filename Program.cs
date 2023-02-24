@@ -10,14 +10,34 @@ config.AddTarget("File Logger", target);
 config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, target));
 LogManager.Configuration = config;
 
-CSVFileReader csv = new CSVFileReader();
-DataTable dataTable = csv.ReadFile("Transactions2014New.csv");
-
+// ask user input if file path is not found;
+string fileName = "";
+CSVFileReader csv;
+DataTable dataTable;
+JSONFileReader json;
 List<Transaction> myTransactions=new List<Transaction>();
 
-foreach (DataRow row in dataTable.Rows)
-{
-    myTransactions.Add(new Transaction(row["Date"].ToString()!,row["From"].ToString()!,row["To"].ToString()!,row["Narrative"].ToString()!,Convert.ToDecimal(row["Amount"])));
+while(!File.Exists(fileName)){
+        
+        Console.WriteLine("Enter the FileName to read:");
+        fileName=  Console.ReadLine();
+
+        if(!File.Exists(fileName)){
+        Console.WriteLine("Incorrect filename, please enter correct filename:");}
+    }
+
+
+if(Path.GetExtension(fileName)==".csv"){
+        csv = new CSVFileReader();
+        dataTable= csv.ReadFile(fileName);
+        foreach (DataRow row in dataTable.Rows)
+        {
+            myTransactions.Add(new Transaction(row["Date"].ToString()!,row["From"].ToString()!,row["To"].ToString()!,row["Narrative"].ToString()!,Convert.ToDecimal(row["Amount"])));
+        }
+}else if (Path.GetExtension(fileName)==".json"){
+    
+       json = new JSONFileReader(); 
+       myTransactions=json.JSONReadFile(fileName);
 }
 
 Accounting accounts = new Accounting(myTransactions);

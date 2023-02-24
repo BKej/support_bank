@@ -6,7 +6,6 @@ class Accounting{
     private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
     public List<Transaction> TransactionList = new List<Transaction>();
     HashSet<string> PersonNameList = new HashSet<string>();
-    // create hashset version
 
     //Constructor
     public Accounting(List<Transaction> myTransactions){
@@ -15,12 +14,13 @@ class Accounting{
 
       public HashSet<string> GetPersonList(){
         List<Person> Person = new List<Person>();
-
+        
+        //Logger.Info("Generate a unique person name list from transactionlist");
         foreach(Transaction transaction in TransactionList){
             Person.Add(new Person(transaction.From));
             foreach(Person user in Person){
 
-                //unser.Name type is string;
+                //user.Name type is string;
                 PersonNameList.Add(user.Name);
             }
         }
@@ -37,7 +37,6 @@ class Accounting{
         List<string> balanceList = new List<string>();
 
         foreach(string name in GetPersonList()){
-           
             Name = name;
             foreach (Transaction transaction in TransactionList){
                 if (name == transaction.From){

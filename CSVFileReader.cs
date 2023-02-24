@@ -1,8 +1,6 @@
 using SupportBank;
 using System.Data;
 using NLog;
-
-
 class CSVFileReader{
     private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
    
@@ -11,7 +9,7 @@ class CSVFileReader{
     public DataTable ReadFile(string FileName){
 
         Logger.Info("Inside ReadFile method:- FileName: "+ FileName);
-
+       
         try{
          System.IO.StreamReader reader = new System.IO.StreamReader(FileName);
          
@@ -40,7 +38,6 @@ class CSVFileReader{
             if(dataTable.Rows.Count == 0){
                 Logger.Debug("No Data Found...");
             }
-
                     try{
                         foreach (DataRow row in dataTable.Rows)
                         {
@@ -65,10 +62,8 @@ class CSVFileReader{
         }
         catch (FileNotFoundException e){
             Console.WriteLine("File Not found, please give correct path");
-            throw e;
-            // ask a user for another input;
+
         }
-        
         return dataTable;
 
     }
